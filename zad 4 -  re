@@ -1,0 +1,60 @@
+#Napisz skrypt zmieniający w podanym ciągu wejściowym
+# (można plik wygenerować samemu lub sciągnąć np. z portalu informacyjnego)
+# wybrane słowa innymi slowami (podanymi w strukturze typu słownikowego)
+# podanymi jako parametr wejściowy funkcji
+
+import re
+
+def replace_words_with_regex(text, replacements):
+    """
+    Zamienia wskazane słowa w tekście na podstawie słownika zamian za pomocą wyrażeń regularnych.
+
+    :param text: Wejściowy ciąg tekstowy.
+    :param replacements: Słownik w formacie {stare_słowo: nowe_słowo}.
+    :return: Tekst po zamianie słów.
+    """
+    # Budujemy wyrażenie regularne dla wszystkich słów kluczowych
+    pattern = re.compile(r'\b(' + '|'.join(map(re.escape, replacements.keys())) + r')\b')
+
+    # Funkcja zastępująca słowa
+    def replace(match):
+        return replacements[match.group(0)]
+
+    # Zamiana słów w tekście
+    return pattern.sub(replace, text)
+
+def process_file_with_regex(file_path, output_path, replacements):
+    """
+    Zamienia słowa w pliku tekstowym na podstawie słownika zamian za pomocą wyrażeń regularnych.
+
+    :param file_path: Ścieżka do pliku wejściowego.
+    :param output_path: Ścieżka do pliku wynikowego.
+    :param replacements: Słownik w formacie {stare_słowo: nowe_słowo}.
+    """
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            text = f.read()
+
+        updated_text = replace_words_with_regex(text, replacements)
+
+        with open(output_path, 'w', encoding='utf-8') as f:
+            f.write(updated_text)
+
+        print(f"Przetworzono plik. Wynik zapisano w: {output_path}")
+    except FileNotFoundError:
+        print(f"Plik {file_path} nie został znaleziony.")
+    except Exception as e:
+        print(f"Wystąpił błąd: {e}")
+
+# Przykład użycia
+if __name__ == "__main__":
+
+    # Obsługa pliku
+    input_file = "input.txt"  # Ścieżka do pliku wejściowego
+    output_file = "output1.txt"  # Ścieżka do pliku wynikowego
+    replacements_in_file = {
+        "Lena": "Ola",
+        "obiad": "kolację",
+        "niezadowolony": "zadowolony"
+    }
+    process_file_with_regex(input_file, output_file, replacements_in_file)
