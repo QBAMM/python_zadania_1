@@ -1,0 +1,45 @@
+#Napisz skrypt usuwający z wejściowego ciągu tekstowego
+# (można plik wygenerować samemu lub ściągnąć np. z portalu informacyjnego)
+# wybrane słowa podane jako parametr wejściowy
+
+def remove_words_from_text(input_file, output_file, words_to_remove):
+    """
+    Usuwa podane słowa z pliku wejściowego i zapisuje wynik do pliku wyjściowego.
+
+    :param input_file: Ścieżka do pliku wejściowego
+    :param output_file: Ścieżka do pliku wyjściowego
+    :param words_to_remove: Lista słów do usunięcia
+    """
+    try:
+        # Wczytaj tekst z pliku wejściowego
+        with open(input_file, 'r', encoding='utf-8') as file:
+            text = file.read()
+
+        # Usuń każde słowo z listy words_to_remove
+        for word in words_to_remove:
+            # Dodaj spacje przed i po słowie, aby usunąć całe słowo
+            text = text.replace(f' {word} ', ' ')
+            text = text.replace(f' {word}.', '.')
+            text = text.replace(f' {word},', ',')
+            text = text.replace(f' {word}\n', '\n')
+            text = text.replace(f'\n{word} ', '\n')
+
+        # Zapisz przetworzony tekst do pliku wyjściowego
+        with open(output_file, 'w', encoding='utf-8') as file:
+            file.write(text)
+
+        print(f"Przetworzono plik. Wynik zapisano do {output_file}.")
+
+    except FileNotFoundError:
+        print(f"Błąd: Plik {input_file} nie został znaleziony.")
+    except Exception as e:
+        print(f"Wystąpił błąd: {e}")
+
+
+# Przykład użycia
+input_file = "input.txt"
+output_file = "output2.txt"
+words_to_remove = ["stole", "Jurek", "obiad"]
+
+# Wywołaj funkcję
+remove_words_from_text(input_file, output_file, words_to_remove)
