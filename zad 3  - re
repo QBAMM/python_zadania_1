@@ -1,0 +1,54 @@
+#Napisz skrypt usuwający z wejściowego ciągu tekstowego
+# (można plik wygenerować samemu lub ściągnąć np. z portalu informacyjnego)
+# wybrane słowa podane jako parametr wejściowy
+
+import re
+
+
+def remove_words_with_regex(text, words_to_remove):
+    """
+    Usuwa wskazane słowa z tekstu za pomocą wyrażeń regularnych.
+
+    :param text: Wejściowy ciąg tekstowy.
+    :param words_to_remove: Lista słów do usunięcia.
+    :return: Tekst po usunięciu wskazanych słów.
+    """
+    # Budowanie wyrażenia regularnego dla słów do usunięcia
+    pattern = re.compile(r'\b(' + '|'.join(map(re.escape, words_to_remove)) + r')\b')
+
+    # Usunięcie słów
+    return pattern.sub('', text).strip()
+
+
+def process_file_remove_words(file_path, output_path, words_to_remove):
+    """
+    Usuwa wskazane słowa z pliku tekstowego i zapisuje wynik do nowego pliku.
+
+    :param file_path: Ścieżka do pliku wejściowego.
+    :param output_path: Ścieżka do pliku wynikowego.
+    :param words_to_remove: Lista słów do usunięcia.
+    """
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            text = f.read()
+
+        updated_text = remove_words_with_regex(text, words_to_remove)
+
+        with open(output_path, 'w', encoding='utf-8') as f:
+            f.write(updated_text)
+
+        print(f"Przetworzono plik. Wynik zapisano w: {output_path}")
+    except FileNotFoundError:
+        print(f"Plik {file_path} nie został znaleziony.")
+    except Exception as e:
+        print(f"Wystąpił błąd: {e}")
+
+
+# Użycie
+if __name__ == "__main__":
+
+    # Obsługa pliku
+    input_file = "input.txt"  # Plik wejściowy
+    output_file = "output.txt"  # Plik wynikowy
+    words_to_remove_from_file = ["siedzą", "Hanna", "nie"]
+    process_file_remove_words(input_file, output_file, words_to_remove_from_file)
