@@ -1,0 +1,50 @@
+#Napisz skrypt zmieniający w podanym ciągu wejściowym
+# (można plik wygenerować samemu lub sciągnąć np. z portalu informacyjnego)
+# wybrane słowa innymi slowami (podanymi w strukturze typu słownikowego)
+# podanymi jako parametr wejściowy funkcji
+
+def replace_words_in_text(input_file, output_file, replacement_dict):
+    """
+    Zmienia w pliku wejściowym wybrane słowa na inne na podstawie podanego słownika
+    i zapisuje wynik do pliku wyjściowego.
+
+    :param input_file: Ścieżka do pliku wejściowego
+    :param output_file: Ścieżka do pliku wyjściowego
+    :param replacement_dict: Słownik {stare_słowo: nowe_słowo} określający zamiany
+    """
+    try:
+        # Wczytaj tekst z pliku wejściowego
+        with open(input_file, 'r', encoding='utf-8') as file:
+            text = file.read()
+
+        # Iteruj po parach (stare_słowo, nowe_słowo) w słowniku
+        for old_word, new_word in replacement_dict.items():
+            # Zamień stare słowo na nowe
+            text = text.replace(f" {old_word} ", f" {new_word} ")
+            text = text.replace(f" {old_word}.", f" {new_word}.")
+            text = text.replace(f" {old_word},", f" {new_word},")
+            text = text.replace(f" {old_word}\n", f" {new_word}\n")
+            text = text.replace(f"\n{old_word} ", f"\n{new_word} ")
+
+        # Zapisz przetworzony tekst do pliku wyjściowego
+        with open(output_file, 'w', encoding='utf-8') as file:
+            file.write(text)
+
+        print(f"Przetworzono plik. Wynik zapisano do {output_file}.")
+
+    except FileNotFoundError:
+        print(f"Błąd: Plik {input_file} nie został znaleziony.")
+    except Exception as e:
+        print(f"Wystąpił błąd: {e}")
+
+
+input_file = "input.txt"
+output_file = "output3.txt"
+replacement_dict = {
+    "stole": "aucie",
+    "mama": "tata",
+    "Jurek": "Jarek"
+}  # Słownik zamian
+
+# Wywołanie funkcji
+replace_words_in_text(input_file, output_file, replacement_dict)
