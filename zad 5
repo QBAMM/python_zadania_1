@@ -1,0 +1,67 @@
+# Napisz skrypt sortujący liczby (dwoma wybranymi metodami).
+# Wygeneruj losowo N liczb - wykorzystaj standardową funkcję do
+# losowania. Z wbudowanej funkcji sortującej korzystaj tylko w celu
+# weryfikacji wyników.
+
+import random
+
+def bubble_sort(arr):
+    """
+    Sortowanie bąbelkowe (Bubble Sort).
+    """
+    n = len(arr)
+    for i in range(n):
+        for j in range(0, n - i - 1):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+    return arr
+
+
+def insertion_sort(arr):
+    """
+    Sortowanie przez wstawianie (Insertion Sort).
+    """
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i - 1
+        while j >= 0 and key < arr[j]:
+            arr[j + 1] = arr[j]
+            j -= 1
+        arr[j + 1] = key
+    return arr
+
+
+def generate_random_numbers(n, start=1, end=100):
+    """
+    Generuje listę `n` losowych liczb z zakresu 1 do 100.
+    """
+    return [random.randint(start, end) for _ in range(n)]
+
+
+# Główna część programu
+if __name__ == "__main__":
+    N = 20  # Liczba losowych liczb
+    numbers = generate_random_numbers(N)
+
+    print("Losowe liczby:")
+    print(numbers)
+
+    # Sortowanie bąbelkowe
+    bubble_sorted = bubble_sort(numbers.copy())
+    print("\nPosortowane (Bubble Sort):")
+    print(bubble_sorted)
+
+    # Sortowanie przez wstawianie
+    insertion_sorted = insertion_sort(numbers.copy())
+    print("\nPosortowane (Insertion Sort):")
+    print(insertion_sorted)
+
+    # Weryfikacja za pomocą wbudowanej funkcji sorted()
+    sorted_builtin = sorted(numbers)
+    print("\nPosortowane (wbudowana funkcja):")
+    print(sorted_builtin)
+
+    # Weryfikacja poprawności wyników
+    print("\nCzy wyniki są zgodne z wbudowaną funkcją?")
+    print("Bubble Sort poprawny:", bubble_sorted == sorted_builtin)
+    print("Insertion Sort poprawny:", insertion_sorted == sorted_builtin)
