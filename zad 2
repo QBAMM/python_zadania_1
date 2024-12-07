@@ -1,0 +1,25 @@
+#Napisz rekurencyjne przejście drzewa katalogów i wypisanie plików,
+#które znajdują się w podanym jako parametr katalogu
+
+import os
+
+def list_files_recursively(directory):
+    try:
+        # Sprawdzenie, czy katalog istnieje
+        if not os.path.exists(directory):
+            print(f"Katalog {directory} nie istnieje.")
+            return
+
+        # Rekurencyjne przechodzenie drzewa katalogów
+        for root, dirs, files in os.walk(directory):
+            for file in files:
+                # Tworzenie pełnej ścieżki do pliku
+                file_path = os.path.join(root, file)
+                print(file_path)
+    except PermissionError:
+        print(f"Brak dostępu do katalogu {directory}.")
+    except Exception as e:
+        print(f"Wystąpił błąd: {e}")
+
+directory_path = r"XXX\zadania 1"  # Śceiżk do katalogu
+list_files_recursively(directory_path)
