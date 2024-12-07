@@ -21,6 +21,6 @@ def count_files(directory):
         print(f"Wystąpił błąd: {e}")
         return 0
 
-directory_path = r"C:\Users\Kubuś\PycharmProjects\PythonProject" #Ścieżka do katalogu
+directory_path = r"XXX\PythonProject" #Ścieżka do katalogu
 files_count = count_files(directory_path)
 print(f"Liczba plików w katalogu {directory_path}: {files_count}")
