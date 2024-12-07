@@ -1,0 +1,71 @@
+#Napisz unit testy (z użyciem pakietu unittest)
+#testujące podstawową funkcjonalność klasy
+
+
+import unittest
+from tree import TreeNode, Tree
+
+class TestTree(unittest.TestCase):
+    def setUp(self):
+        """
+        Przygotowanie drzewa testowego:
+            A
+           / \
+          B   C
+         /
+        D
+        """
+        # Tworzenie węzłów
+        self.root = TreeNode("A")
+        self.child1 = TreeNode("B")
+        self.child2 = TreeNode("C")
+        self.child3 = TreeNode("D")
+
+        # Budowanie struktury drzewa
+        self.root.add_child(self.child1, "edge1")
+        self.root.add_child(self.child2, "edge2")
+        self.child1.add_child(self.child3, "edge3")
+
+        # Tworzenie drzewa
+        self.tree = Tree(self.root)
+
+    def test_tree_traversal(self):
+        """
+        Testuje poprawność przechodzenia drzewa w sposób preorder.
+        """
+        expected_order = ["A", "B", "D", "C"]
+        self.assertEqual(self.tree.traverse(), expected_order)
+
+    def test_tree_str(self):
+        """
+        Testuje poprawność reprezentacji drzewa w metodzie __str__.
+        """
+        expected_representation = (
+            "Węzeł(A)\n"
+            "--edge1-->     Węzeł(B)\n"
+            "    --edge3-->         Węzeł(D)\n"
+            "--edge2-->     Węzeł(C)"
+        )
+        self.assertEqual(str(self.tree), expected_representation)
+
+    def test_add_child(self):
+        """
+        Testuje dodawanie węzłów do drzewa.
+        """
+        new_child = TreeNode("E")
+        self.child2.add_child(new_child, "edge4")
+
+        # Sprawdzenie struktury drzewa po dodaniu nowego węzła
+        expected_order = ["A", "B", "D", "C", "E"]
+        self.assertEqual(self.tree.traverse(), expected_order)
+
+    def test_empty_tree(self):
+        """
+        Testuje zachowanie pustego drzewa.
+        """
+        empty_tree = Tree()
+        self.assertEqual(empty_tree.traverse(), [])
+        self.assertEqual(str(empty_tree), "Drzewo jest puste.")
+
+if __name__ == "__main__":
+    unittest.main()
