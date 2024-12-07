@@ -1,0 +1,26 @@
+# Napisz skrypt zliczający ilość plików w katalogu /dev
+# (lub w dowolnym katalogu), skorzystaj ze standardowej biblioteki - os
+
+import os
+
+
+def count_files(directory):
+    try:
+        # Sprawdzenie, czy katalog istnieje
+        if not os.path.exists(directory):
+            print(f"Katalog {directory} nie istnieje.")
+            return 0
+
+        # Zliczanie plików w katalogu (bez podkatalogów)
+        files_count = sum(1 for entry in os.scandir(directory) if entry.is_file())
+        return files_count
+    except PermissionError:
+        print(f"Brak dostępu do katalogu {directory}.")
+        return 0
+    except Exception as e:
+        print(f"Wystąpił błąd: {e}")
+        return 0
+
+directory_path = r"C:\Users\Kubuś\PycharmProjects\PythonProject" #Ścieżka do katalogu
+files_count = count_files(directory_path)
+print(f"Liczba plików w katalogu {directory_path}: {files_count}")
