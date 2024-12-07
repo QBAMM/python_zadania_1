@@ -1,0 +1,97 @@
+# Zaimplementuj klasę, która będzie realizowała strukturę
+# drzewa (powinna posiadać funkcję przechodzenia wszystkich
+# węzłów drzewa, węzły powinny mieć możliwość przechowywania
+# wartości, krawędzie także mogą zawierać wartości lub być oznaczone),
+# klasa powinna mieć zdefiniowaną funkcję __str__
+
+
+
+class TreeNode:
+    """
+    Reprezentuje węzeł w drzewie.
+    """
+
+    def __init__(self, value=None):
+        self.value = value  # Wartość przechowywana w węźle
+        self.children = []  # Lista krotek (dziecko, wartość krawędzi)
+
+    def add_child(self, child, edge_value=None):
+        """
+        Dodaje dziecko do węzła.
+
+        :param child: Obiekt TreeNode będący dzieckiem.
+        :param edge_value: Wartość lub oznaczenie krawędzi.
+        """
+        self.children.append((child, edge_value))
+
+
+class Tree:
+    """
+    Reprezentuje strukturę drzewa.
+    """
+
+    def __init__(self, root=None):
+        self.root = root  # Korzeń drzewa (obiekt TreeNode)
+
+    def traverse(self):
+        """
+        Przechodzi przez wszystkie węzły drzewa w sposób preorder.
+
+        :return: Lista wartości węzłów w kolejności przechodzenia.
+        """
+        result = []
+
+        def _traverse(node):
+            if node is None:
+                return
+            result.append(node.value)  # Zapisanie wartości węzła
+            for child, edge_value in node.children:
+                _traverse(child)  # Rekurencyjne przechodzenie dzieci
+
+        _traverse(self.root)
+        return result
+
+    def __str__(self):
+        """
+        Reprezentuje drzewo w postaci czytelnej dla użytkownika.
+
+        :return: String z wizualizacją drzewa.
+        """
+        if self.root is None:
+            return "Drzewo jest puste."
+
+        def _str(node, prefix=""):
+            representation = f"{prefix}Węzeł({node.value})\n"
+            for child, edge_value in node.children:
+                edge_info = f"--{edge_value}--> " if edge_value is not None else "--> "
+                representation += f"{prefix}{edge_info}{_str(child, prefix + '    ')}"
+            return representation
+
+        return _str(self.root).strip()
+
+
+# Przykład użycia
+if __name__ == "__main__":
+    # Tworzenie węzłów drzewa
+    root = TreeNode("A")
+    child1 = TreeNode("B")
+    child2 = TreeNode("C")
+    child3 = TreeNode("D")
+
+    # Dodawanie dzieci do korzenia
+    root.add_child(child1, "edge1")
+    root.add_child(child2, "edge2")
+
+    # Dodawanie dziecka do jednego z dzieci korzenia
+    child1.add_child(child3, "edge3")
+
+    # Tworzenie drzewa
+    tree = Tree(root)
+
+    # Wyświetlenie drzewa
+    print("Drzewo:")
+    print(tree)
+
+    # Przechodzenie drzewa
+    print("\nPrzechodzenie drzewa (preorder):")
+    print(tree.traverse())
