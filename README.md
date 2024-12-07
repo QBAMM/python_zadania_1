@@ -3,6 +3,7 @@
 
 3. Napisz skrypt usuwający z wejściowego ciągu tekstowego (można plik wygenerować samemu lub ściągnąć np. z portalu informacyjnego) wybrane słowa podane jako parametr wejściowy 
 4. Napisz skrypt zmieniający w podanym ciągu wejściowym (można plik wygenerować samemu lub sciągnąć np. z portalu informacyjnego) wybrane słowa innymi slowami (podanymi w strukturze typu słownikowego) podanymi jako parametr wejściowy funkcji 
+
  Zrób powyższe dwa zadania wykorzystując pakiet wyrażeń regularnych - re
 5. Napisz skrypt sortujący liczby (dwoma wybranymi metodami). Wygeneruj losowo N liczb - wykorzystaj standardową funkcję do losowania. Z wbudowanej funkcji sortującej korzystaj tylko w celu weryfikacji wyników. 
 
